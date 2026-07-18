@@ -11,4 +11,8 @@ import java.util.List;
 public class ProdutoService {
 
     private List<Produto> produtos = new ArrayList<>();
+
+    public List<Produto> listarProdutos(){
+        return produtos;
+    }
 }
