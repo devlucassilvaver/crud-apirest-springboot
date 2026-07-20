@@ -24,4 +24,8 @@ public class ProdutoService {
         }
         return null;
     }
+
+    public void adicionarProduto(Produto produto){
+        produtos.add(produto);
+    }
 }

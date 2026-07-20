@@ -2,10 +2,7 @@ package com.lucassilva.api_rest.controller;
 
 import com.lucassilva.api_rest.model.Produto;
 import com.lucassilva.api_rest.service.ProdutoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,10 @@ public class ProdutoController {
     @GetMapping("/{id}")
     public Produto buscarProdutoPorId(@PathVariable int id){
         return produtoService.buscarProdutoPorId(id);
+    }
+
+    @PostMapping
+    public void adicionarProduto(@RequestBody Produto produto){
+        produtoService.adicionarProduto(produto);
     }
 }
