@@ -30,4 +30,10 @@ public class ProdutoController {
     public void adicionarProduto(@RequestBody Produto produto){
         produtoService.adicionarProduto(produto);
     }
+
+    @PutMapping("/{id}")
+    public void atualizarProduto(@PathVariable int id,
+                                 @RequestBody Produto produto){
+        produtoService.atualizarProduto(id, produto);
+    }
 }

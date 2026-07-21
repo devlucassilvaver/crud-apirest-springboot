@@ -28,4 +28,10 @@ public class ProdutoService {
     public void adicionarProduto(Produto produto){
         produtos.add(produto);
     }
+
+    public void atualizarProduto(int id, Produto produto){
+        Produto produtoEncontrado = buscarProdutoPorId(id);
+        produtoEncontrado.setNome(produto.getNome());
+        produtoEncontrado.setPreco(produto.getPreco());
+    }
 }
