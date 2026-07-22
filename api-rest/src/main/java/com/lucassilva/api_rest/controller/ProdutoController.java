@@ -36,4 +36,9 @@ public class ProdutoController {
                                  @RequestBody Produto produto){
         produtoService.atualizarProduto(id, produto);
     }
+
+    @DeleteMapping("/{id}")
+    public void removerProduto(@PathVariable int id){
+        produtoService.removerProduto(id);
+    }
 }

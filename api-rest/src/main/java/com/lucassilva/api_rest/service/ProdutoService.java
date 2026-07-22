@@ -34,4 +34,9 @@ public class ProdutoService {
         produtoEncontrado.setNome(produto.getNome());
         produtoEncontrado.setPreco(produto.getPreco());
     }
+
+    public void removerProduto(int id){
+        Produto produtoEncontrato = buscarProdutoPorId(id);
+        produtos.remove(produtoEncontrato);
+    }
 }
