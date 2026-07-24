@@ -1,6 +1,7 @@
 package com.lucassilva.api_rest.service;
 
 
+import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
 import com.lucassilva.api_rest.model.Produto;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,9 @@ public class ProdutoService {
                 return produto;
             }
         }
-        return null;
+        throw new ProdutoNaoEncontradoException(
+              "Produto com id " + id + " não encontrado."
+        );
     }
 
     public void adicionarProduto(Produto produto){
