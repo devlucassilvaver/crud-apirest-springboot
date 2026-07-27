@@ -1,6 +1,7 @@
 package com.lucassilva.api_rest.service;
 
 
+import com.lucassilva.api_rest.dto.CadastroProdutoDTO;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
 import com.lucassilva.api_rest.model.Produto;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,9 @@ public class ProdutoService {
         );
     }
 
-    public void adicionarProduto(Produto produto){
+    public void adicionarProduto(CadastroProdutoDTO cadastroProdutoDTO){
+        Produto produto = new Produto(cadastroProdutoDTO);
+
         produto.setId(proximoId);
         produtos.add(produto);
         proximoId++;

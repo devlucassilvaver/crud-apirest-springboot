@@ -1,5 +1,7 @@
 package com.lucassilva.api_rest.model;
 
+import com.lucassilva.api_rest.dto.CadastroProdutoDTO;
+
 public class Produto {
     private int id;
     private String nome;
@@ -11,6 +13,11 @@ public class Produto {
     public Produto(String nome, double preco) {
         this.nome = nome;
         this.preco = preco;
+    }
+
+    public Produto(CadastroProdutoDTO cadastroProdutoDTO){
+        this.nome = cadastroProdutoDTO.getNome();
+        this.preco = cadastroProdutoDTO.getPreco();
     }
 
     public int getId() {

@@ -1,5 +1,6 @@
 package com.lucassilva.api_rest.controller;
 
+import com.lucassilva.api_rest.dto.CadastroProdutoDTO;
 import com.lucassilva.api_rest.model.Produto;
 import com.lucassilva.api_rest.service.ProdutoService;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public void adicionarProduto(@RequestBody Produto produto){
-        produtoService.adicionarProduto(produto);
+    public void adicionarProduto(@RequestBody CadastroProdutoDTO cadastroProdutoDTO){
+        produtoService.adicionarProduto(cadastroProdutoDTO);
     }
 
     @PutMapping("/{id}")
