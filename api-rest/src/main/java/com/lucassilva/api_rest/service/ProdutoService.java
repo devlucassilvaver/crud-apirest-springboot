@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class ProdutoService {
+    private int proximoId = 1;
 
     private List<Produto> produtos = new ArrayList<>();
 
@@ -29,7 +30,9 @@ public class ProdutoService {
     }
 
     public void adicionarProduto(Produto produto){
+        produto.setId(proximoId);
         produtos.add(produto);
+        proximoId++;
     }
 
     public void atualizarProduto(int id, Produto produto){
