@@ -1,5 +1,6 @@
 package com.lucassilva.api_rest.controller;
 
+import com.lucassilva.api_rest.dto.AtualizacaoProdutoDTO;
 import com.lucassilva.api_rest.dto.CadastroProdutoDTO;
 import com.lucassilva.api_rest.model.Produto;
 import com.lucassilva.api_rest.service.ProdutoService;
@@ -34,8 +35,8 @@ public class ProdutoController {
 
     @PutMapping("/{id}")
     public void atualizarProduto(@PathVariable int id,
-                                 @RequestBody Produto produto){
-        produtoService.atualizarProduto(id, produto);
+                                 @RequestBody AtualizacaoProdutoDTO atualizacaoProdutoDTO){
+        produtoService.atualizarProduto(id, atualizacaoProdutoDTO);
     }
 
     @DeleteMapping("/{id}")

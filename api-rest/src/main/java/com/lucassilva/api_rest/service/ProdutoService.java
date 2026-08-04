@@ -1,6 +1,7 @@
 package com.lucassilva.api_rest.service;
 
 
+import com.lucassilva.api_rest.dto.AtualizacaoProdutoDTO;
 import com.lucassilva.api_rest.dto.CadastroProdutoDTO;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
 import com.lucassilva.api_rest.model.Produto;
@@ -38,10 +39,11 @@ public class ProdutoService {
         proximoId++;
     }
 
-    public void atualizarProduto(int id, Produto produto){
+    public void atualizarProduto(int id, AtualizacaoProdutoDTO atualizacaoProdutoDTO){
         Produto produtoEncontrado = buscarProdutoPorId(id);
-        produtoEncontrado.setNome(produto.getNome());
-        produtoEncontrado.setPreco(produto.getPreco());
+
+        produtoEncontrado.setNome(atualizacaoProdutoDTO.getNome());
+        produtoEncontrado.setPreco(atualizacaoProdutoDTO.getPreco());
     }
 
     public void removerProduto(int id){
