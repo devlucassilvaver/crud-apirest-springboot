@@ -1,6 +1,6 @@
 package com.lucassilva.api_rest.model;
 
-import com.lucassilva.api_rest.dto.CadastroProdutoDTO;
+import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
 
 public class Produto {
     private int id;

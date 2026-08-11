@@ -1,7 +1,13 @@
-package com.lucassilva.api_rest.dto;
+package com.lucassilva.api_rest.dto.request;
 
-public class CadastroProdutoDTO {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+
+public class AtualizacaoProdutoDTO {
+    @NotBlank
     private String nome;
+
+    @Positive
     private double preco;
 
     public String getNome() {

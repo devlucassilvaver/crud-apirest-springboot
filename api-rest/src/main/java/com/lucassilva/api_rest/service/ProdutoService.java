@@ -1,11 +1,12 @@
 package com.lucassilva.api_rest.service;
 
 
-import com.lucassilva.api_rest.dto.AtualizacaoProdutoDTO;
-import com.lucassilva.api_rest.dto.CadastroProdutoDTO;
+import com.lucassilva.api_rest.dto.request.AtualizacaoProdutoDTO;
+import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
 import com.lucassilva.api_rest.model.Produto;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;

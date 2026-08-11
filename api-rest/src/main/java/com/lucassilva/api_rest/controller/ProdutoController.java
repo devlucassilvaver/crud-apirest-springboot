@@ -1,9 +1,10 @@
 package com.lucassilva.api_rest.controller;
 
-import com.lucassilva.api_rest.dto.AtualizacaoProdutoDTO;
-import com.lucassilva.api_rest.dto.CadastroProdutoDTO;
+import com.lucassilva.api_rest.dto.request.AtualizacaoProdutoDTO;
+import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
 import com.lucassilva.api_rest.model.Produto;
 import com.lucassilva.api_rest.service.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,13 +30,13 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public void adicionarProduto(@RequestBody CadastroProdutoDTO cadastroProdutoDTO){
+    public void adicionarProduto(@Valid @RequestBody CadastroProdutoDTO cadastroProdutoDTO){
         produtoService.adicionarProduto(cadastroProdutoDTO);
     }
 
     @PutMapping("/{id}")
     public void atualizarProduto(@PathVariable int id,
-                                 @RequestBody AtualizacaoProdutoDTO atualizacaoProdutoDTO){
+                                 @Valid @RequestBody AtualizacaoProdutoDTO atualizacaoProdutoDTO){
         produtoService.atualizarProduto(id, atualizacaoProdutoDTO);
     }
 
