@@ -5,6 +5,8 @@ import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
 import com.lucassilva.api_rest.model.Produto;
 import com.lucassilva.api_rest.service.ProdutoService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,13 +37,16 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public void atualizarProduto(@PathVariable int id,
-                                 @Valid @RequestBody AtualizacaoProdutoDTO atualizacaoProdutoDTO){
+    public ResponseEntity<Void> atualizarProduto(@PathVariable int id,
+                                           @Valid @RequestBody AtualizacaoProdutoDTO atualizacaoProdutoDTO){
         produtoService.atualizarProduto(id, atualizacaoProdutoDTO);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public void removerProduto(@PathVariable int id){
+    public ResponseEntity<Void> removerProduto(@PathVariable int id){
         produtoService.removerProduto(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -5,39 +5,33 @@ import com.lucassilva.api_rest.dto.request.AtualizacaoProdutoDTO;
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
 import com.lucassilva.api_rest.model.Produto;
+import com.lucassilva.api_rest.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProdutoService {
-    private int proximoId = 1;
 
-    private List<Produto> produtos = new ArrayList<>();
+    private final ProdutoRepository produtoRepository;
+
+    public ProdutoService(ProdutoRepository produtoRepository){
+        this.produtoRepository = produtoRepository;
+    }
 
     public List<Produto> listarProdutos(){
-        return produtos;
+        return produtoRepository.findAll();
     }
 
     public Produto buscarProdutoPorId(int id){
-        for (Produto produto : produtos){
-            if (produto.getId() == id){
-                return produto;
-            }
-        }
-        throw new ProdutoNaoEncontradoException(
-              "Produto com id " + id + " não encontrado."
-        );
+        return produtoRepository.findById(id)
+                .orElseThrow(() -> new ProdutoNaoEncontradoException(
+                        "Produto não encontrado"
+                ));
     }
 
     public void adicionarProduto(CadastroProdutoDTO cadastroProdutoDTO){
         Produto produto = new Produto(cadastroProdutoDTO);
-
-        produto.setId(proximoId);
-        produtos.add(produto);
-        proximoId++;
+        produtoRepository.save(produto);
     }
 
     public void atualizarProduto(int id, AtualizacaoProdutoDTO atualizacaoProdutoDTO){
@@ -45,10 +39,12 @@ public class ProdutoService {
 
         produtoEncontrado.setNome(atualizacaoProdutoDTO.getNome());
         produtoEncontrado.setPreco(atualizacaoProdutoDTO.getPreco());
+
+        produtoRepository.save(produtoEncontrado);
     }
 
     public void removerProduto(int id){
-        Produto produtoEncontrato = buscarProdutoPorId(id);
-        produtos.remove(produtoEncontrato);
+        buscarProdutoPorId(id);
+        produtoRepository.deleteById(id);
     }
 }

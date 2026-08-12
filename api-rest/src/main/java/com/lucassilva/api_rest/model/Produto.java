@@ -1,8 +1,16 @@
 package com.lucassilva.api_rest.model;
 
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class Produto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
     private double preco;

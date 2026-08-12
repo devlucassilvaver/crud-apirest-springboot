@@ -1,3 +1,12 @@
 spring:
   application:
     name: api-rest
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/api_rest
+    username: root
+    password: "@Mutare2025"
+
+  jpa:
+    hibernate:
+      ddl-auto: update
