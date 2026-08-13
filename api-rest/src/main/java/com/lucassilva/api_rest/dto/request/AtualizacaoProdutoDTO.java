@@ -10,6 +10,8 @@ public class AtualizacaoProdutoDTO {
     @Positive
     private double preco;
 
+    private Integer categoriaId;
+
     public String getNome() {
         return nome;
     }
@@ -24,5 +26,9 @@ public class AtualizacaoProdutoDTO {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public Integer getCategoriaId() {
+        return categoriaId;
     }
 }

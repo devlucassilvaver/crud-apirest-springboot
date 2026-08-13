@@ -3,8 +3,11 @@ package com.lucassilva.api_rest.service;
 
 import com.lucassilva.api_rest.dto.request.AtualizacaoProdutoDTO;
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
+import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
+import com.lucassilva.api_rest.model.Categoria;
 import com.lucassilva.api_rest.model.Produto;
+import com.lucassilva.api_rest.repository.CategoriaRepository;
 import com.lucassilva.api_rest.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -13,9 +16,12 @@ import java.util.List;
 public class ProdutoService {
 
     private final ProdutoRepository produtoRepository;
-
-    public ProdutoService(ProdutoRepository produtoRepository){
+    private final CategoriaRepository categoriaRepository;
+    public ProdutoService(
+            ProdutoRepository produtoRepository,
+            CategoriaRepository categoriaRepository){
         this.produtoRepository = produtoRepository;
+        this.categoriaRepository = categoriaRepository;
     }
 
     public List<Produto> listarProdutos(){
@@ -40,11 +46,20 @@ public class ProdutoService {
         produtoEncontrado.setNome(atualizacaoProdutoDTO.getNome());
         produtoEncontrado.setPreco(atualizacaoProdutoDTO.getPreco());
 
+        Categoria categoria = categoriaRepository
+                .findById(atualizacaoProdutoDTO.getCategoriaId())
+                .orElseThrow(() -> new CategoriaNaoEncontradaException(
+                        "Categoria não encontrada"
+                ));
+        produtoEncontrado.setCategoria(categoria);
+
         produtoRepository.save(produtoEncontrado);
+
     }
 
     public void removerProduto(int id){
         buscarProdutoPorId(id);
         produtoRepository.deleteById(id);
     }
+
 }

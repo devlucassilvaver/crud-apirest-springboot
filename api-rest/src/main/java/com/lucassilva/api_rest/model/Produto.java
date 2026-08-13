@@ -1,10 +1,7 @@
 package com.lucassilva.api_rest.model;
 
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Produto {
@@ -14,6 +11,9 @@ public class Produto {
     private int id;
     private String nome;
     private double preco;
+
+    @ManyToOne
+    private Categoria categoria;
 
     public Produto(){
 
@@ -50,5 +50,13 @@ public class Produto {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
