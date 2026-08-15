@@ -2,6 +2,7 @@ package com.lucassilva.api_rest.controller;
 
 import com.lucassilva.api_rest.dto.request.AtualizacaoProdutoDTO;
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
+import com.lucassilva.api_rest.dto.response.ProdutoResponseDTO;
 import com.lucassilva.api_rest.model.Produto;
 import com.lucassilva.api_rest.service.ProdutoService;
 import jakarta.validation.Valid;
@@ -27,8 +28,8 @@ public class ProdutoController {
     }
 
     @GetMapping("/{id}")
-    public Produto buscarProdutoPorId(@PathVariable int id){
-        return produtoService.buscarProdutoPorId(id);
+    public ProdutoResponseDTO buscarProdutoPorId(@PathVariable int id){
+        return produtoService.buscarProdutoResponsePorId(id);
     }
 
     @PostMapping

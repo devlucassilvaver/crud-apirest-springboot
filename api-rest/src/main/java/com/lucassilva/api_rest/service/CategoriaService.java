@@ -38,7 +38,8 @@ public class CategoriaService {
                 .map(produto -> new ProdutoResponseDTO(
                         produto.getId(),
                         produto.getNome(),
-                        produto.getPreco()
+                        produto.getPreco(),
+                        null
                 ))
                 .toList();
         return new CategoriaResponseDTO(
