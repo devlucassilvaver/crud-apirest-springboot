@@ -55,6 +55,14 @@ public class ProdutoService {
 
     public void adicionarProduto(CadastroProdutoDTO cadastroProdutoDTO){
         Produto produto = new Produto(cadastroProdutoDTO);
+
+        Categoria categoria = categoriaRepository
+                .findById(cadastroProdutoDTO.getCategoriaId())
+                .orElseThrow(() -> new CategoriaNaoEncontradaException(
+                        "Categoria não encontrada."
+                ));
+        produto.setCategoria(categoria);
+
         produtoRepository.save(produto);
     }
 
