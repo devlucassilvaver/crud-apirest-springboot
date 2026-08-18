@@ -1,6 +1,7 @@
 package com.lucassilva.api_rest.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public class AtualizacaoProdutoDTO {
@@ -10,6 +11,8 @@ public class AtualizacaoProdutoDTO {
     @Positive
     private double preco;
 
+    @NotNull
+    @Positive
     private Integer categoriaId;
 
     public String getNome() {
