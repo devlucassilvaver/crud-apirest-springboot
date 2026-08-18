@@ -53,6 +53,28 @@ public class ProdutoService {
         );
     }
 
+    public List<ProdutoResponseDTO> buscarProdutoPorCategoria(Integer categoriaId) {
+
+        categoriaRepository
+                .findById(categoriaId)
+                .orElseThrow(() -> new CategoriaNaoEncontradaException(
+                        "Categoria não encontrada"
+                        )
+                );
+
+        List<ProdutoResponseDTO> produtos = produtoRepository
+                .findByCategoriaId(categoriaId)
+                .stream()
+                .map(produto -> new ProdutoResponseDTO(
+                        produto.getId(),
+                        produto.getNome(),
+                        produto.getPreco(),
+                        null
+                ))
+                .toList();
+        return produtos;
+    }
+
     public void adicionarProduto(CadastroProdutoDTO cadastroProdutoDTO){
         Produto produto = new Produto(cadastroProdutoDTO);
 

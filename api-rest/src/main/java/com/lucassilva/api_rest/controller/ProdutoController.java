@@ -32,6 +32,11 @@ public class ProdutoController {
         return produtoService.buscarProdutoResponsePorId(id);
     }
 
+    @GetMapping("/categoria/{id}")
+    public List<ProdutoResponseDTO> buscarProdutoPorCategoria(@PathVariable int id){
+        return produtoService.buscarProdutoPorCategoria(id);
+    }
+
     @PostMapping
     public void adicionarProduto(@Valid @RequestBody CadastroProdutoDTO cadastroProdutoDTO){
         produtoService.adicionarProduto(cadastroProdutoDTO);
