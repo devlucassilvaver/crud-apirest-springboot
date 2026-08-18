@@ -75,7 +75,7 @@ public class ProdutoService {
         return produtos;
     }
 
-    public void adicionarProduto(CadastroProdutoDTO cadastroProdutoDTO){
+    public ProdutoResponseDTO adicionarProduto(CadastroProdutoDTO cadastroProdutoDTO){
         Produto produto = new Produto(cadastroProdutoDTO);
 
         Categoria categoria = categoriaRepository
@@ -86,6 +86,18 @@ public class ProdutoService {
         produto.setCategoria(categoria);
 
         produtoRepository.save(produto);
+
+        CategoriaResumoResponseDTO categoriaResumo = new CategoriaResumoResponseDTO(
+                produto.getCategoria().getId(),
+                produto.getCategoria().getNome()
+        );
+
+        return new ProdutoResponseDTO(
+                produto.getId(),
+                produto.getNome(),
+                produto.getPreco(),
+                categoriaResumo
+        );
     }
 
     public void atualizarProduto(int id, AtualizacaoProdutoDTO atualizacaoProdutoDTO){

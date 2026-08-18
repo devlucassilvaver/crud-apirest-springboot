@@ -7,6 +7,7 @@ import com.lucassilva.api_rest.model.Produto;
 import com.lucassilva.api_rest.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +39,12 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public void adicionarProduto(@Valid @RequestBody CadastroProdutoDTO cadastroProdutoDTO){
-        produtoService.adicionarProduto(cadastroProdutoDTO);
+    public ResponseEntity<ProdutoResponseDTO> adicionarProduto(@Valid @RequestBody CadastroProdutoDTO cadastroProdutoDTO){
+
+        ProdutoResponseDTO produto = produtoService.adicionarProduto(cadastroProdutoDTO);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(produto);
     }
 
     @PutMapping("/{id}")
