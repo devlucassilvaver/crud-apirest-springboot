@@ -48,11 +48,11 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizarProduto(@PathVariable int id,
+    public ProdutoResponseDTO atualizarProduto(@PathVariable int id,
                                            @Valid @RequestBody AtualizacaoProdutoDTO atualizacaoProdutoDTO){
-        produtoService.atualizarProduto(id, atualizacaoProdutoDTO);
 
-        return ResponseEntity.noContent().build();
+        ProdutoResponseDTO produto = produtoService.atualizarProduto(id, atualizacaoProdutoDTO);
+        return produto;
     }
 
     @DeleteMapping("/{id}")

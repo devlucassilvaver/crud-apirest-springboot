@@ -3,6 +3,7 @@ package com.lucassilva.api_rest.service;
 
 import com.lucassilva.api_rest.dto.request.AtualizacaoProdutoDTO;
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
+import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResumoResponseDTO;
 import com.lucassilva.api_rest.dto.response.ProdutoResponseDTO;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
@@ -100,7 +101,7 @@ public class ProdutoService {
         );
     }
 
-    public void atualizarProduto(int id, AtualizacaoProdutoDTO atualizacaoProdutoDTO){
+    public ProdutoResponseDTO atualizarProduto(int id, AtualizacaoProdutoDTO atualizacaoProdutoDTO){
         Produto produtoEncontrado = buscarProdutoPorId(id);
 
         produtoEncontrado.setNome(atualizacaoProdutoDTO.getNome());
@@ -114,6 +115,18 @@ public class ProdutoService {
         produtoEncontrado.setCategoria(categoria);
 
         produtoRepository.save(produtoEncontrado);
+
+        CategoriaResumoResponseDTO categoriaResumoResponseDTO = new CategoriaResumoResponseDTO(
+                produtoEncontrado.getCategoria().getId(),
+                produtoEncontrado.getCategoria().getNome()
+        );
+
+        return new ProdutoResponseDTO(
+                produtoEncontrado.getId(),
+                produtoEncontrado.getNome(),
+                produtoEncontrado.getPreco(),
+                categoriaResumoResponseDTO
+        );
 
     }
 
