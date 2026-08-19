@@ -27,8 +27,23 @@ public class ProdutoService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public List<Produto> listarProdutos(){
-        return produtoRepository.findAll();
+    public List<ProdutoResponseDTO> listarProdutos(){
+
+        List<ProdutoResponseDTO> produtos = produtoRepository
+                .findAll()
+                .stream()
+                .map(produto -> new ProdutoResponseDTO(
+                        produto.getId(),
+                        produto.getNome(),
+                        produto.getPreco(),
+                        new CategoriaResumoResponseDTO(
+                                produto.getCategoria().getId(),
+                                produto.getCategoria().getNome()
+                        )
+                ))
+                .toList();
+
+        return produtos;
     }
 
     public Produto buscarProdutoPorId(int id){
