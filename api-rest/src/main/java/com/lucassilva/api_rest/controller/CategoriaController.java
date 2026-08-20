@@ -2,6 +2,7 @@ package com.lucassilva.api_rest.controller;
 
 import com.lucassilva.api_rest.dto.request.CadastroCategoriaDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
+import com.lucassilva.api_rest.dto.response.CategoriaResumoResponseDTO;
 import com.lucassilva.api_rest.model.Categoria;
 import com.lucassilva.api_rest.service.CategoriaService;
 import jakarta.validation.Valid;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/categorias")
@@ -18,6 +21,11 @@ public class CategoriaController {
 
     public CategoriaController(CategoriaService categoriaService){
         this.categoriaService = categoriaService;
+    }
+
+    @GetMapping
+    public List<CategoriaResumoResponseDTO> listarCategorias(){
+        return categoriaService.listarCategorias();
     }
 
     @PostMapping

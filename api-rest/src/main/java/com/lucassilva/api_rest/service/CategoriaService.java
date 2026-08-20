@@ -2,6 +2,7 @@ package com.lucassilva.api_rest.service;
 
 import com.lucassilva.api_rest.dto.request.CadastroCategoriaDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
+import com.lucassilva.api_rest.dto.response.CategoriaResumoResponseDTO;
 import com.lucassilva.api_rest.dto.response.ProdutoResponseDTO;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
 import com.lucassilva.api_rest.model.Categoria;
@@ -17,6 +18,18 @@ public class CategoriaService {
 
     public CategoriaService(CategoriaRepository categoriaRepository){
         this.categoriaRepository = categoriaRepository;
+    }
+
+    public List<CategoriaResumoResponseDTO> listarCategorias(){
+        List<CategoriaResumoResponseDTO> categorias = categoriaRepository
+                .findAll()
+                .stream()
+                .map(categoria -> new CategoriaResumoResponseDTO(
+                        categoria.getId(),
+                        categoria.getNome()
+                ))
+                .toList();
+        return categorias;
     }
 
     public void adicionarCategoria(CadastroCategoriaDTO cadastroCategoriaDTO){
