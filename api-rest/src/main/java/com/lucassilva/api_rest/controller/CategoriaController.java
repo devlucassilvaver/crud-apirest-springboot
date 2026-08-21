@@ -29,13 +29,15 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> adicionarCategoria(
+    public ResponseEntity<CategoriaResumoResponseDTO> adicionarCategoria(
             @Valid @RequestBody CadastroCategoriaDTO cadastroCategoriaDTO){
-        categoriaService.adicionarCategoria(cadastroCategoriaDTO);
+
+        CategoriaResumoResponseDTO categoriaResumoResponseDTO =
+                categoriaService.adicionarCategoria(cadastroCategoriaDTO);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                .body(categoriaResumoResponseDTO);
     }
 
     @GetMapping("/{id}")

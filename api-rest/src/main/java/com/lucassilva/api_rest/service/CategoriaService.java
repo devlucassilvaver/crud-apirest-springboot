@@ -32,10 +32,15 @@ public class CategoriaService {
         return categorias;
     }
 
-    public void adicionarCategoria(CadastroCategoriaDTO cadastroCategoriaDTO){
+    public CategoriaResumoResponseDTO adicionarCategoria(CadastroCategoriaDTO cadastroCategoriaDTO){
         Categoria categoria = new Categoria();
         categoria.setNome(cadastroCategoriaDTO.getNome());
         categoriaRepository.save(categoria);
+
+        return new CategoriaResumoResponseDTO(
+                categoria.getId(),
+                categoria.getNome()
+        );
     }
 
     public CategoriaResponseDTO buscarCategoriaPorId(int id){
