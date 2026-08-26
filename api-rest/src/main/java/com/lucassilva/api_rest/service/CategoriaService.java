@@ -1,5 +1,6 @@
 package com.lucassilva.api_rest.service;
 
+import com.lucassilva.api_rest.dto.request.AtualizacaoCategoriaDTO;
 import com.lucassilva.api_rest.dto.request.CadastroCategoriaDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResumoResponseDTO;
@@ -43,6 +44,24 @@ public class CategoriaService {
         );
     }
 
+    public CategoriaResumoResponseDTO atualizarCategoria(int id, AtualizacaoCategoriaDTO atualizacaoCategoriaDTO){
+        Categoria categoriaEncontrada = categoriaRepository
+                .findById(id)
+                .orElseThrow(() -> new CategoriaNaoEncontradaException(
+                        "Categoria não encontrada."
+                        )
+                );
+
+        categoriaEncontrada.setNome(atualizacaoCategoriaDTO.getNome());
+
+        categoriaRepository.save(categoriaEncontrada);
+
+        return new CategoriaResumoResponseDTO(
+                categoriaEncontrada.getId(),
+                categoriaEncontrada.getNome()
+        );
+    }
+
     public CategoriaResponseDTO buscarCategoriaPorId(int id){
 
         Categoria categoria = categoriaRepository.findById(id)
@@ -66,4 +85,5 @@ public class CategoriaService {
                 produtos
         );
     }
+
 }

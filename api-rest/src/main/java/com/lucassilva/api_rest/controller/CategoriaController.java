@@ -1,5 +1,6 @@
 package com.lucassilva.api_rest.controller;
 
+import com.lucassilva.api_rest.dto.request.AtualizacaoCategoriaDTO;
 import com.lucassilva.api_rest.dto.request.CadastroCategoriaDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResumoResponseDTO;
@@ -43,5 +44,13 @@ public class CategoriaController {
     @GetMapping("/{id}")
     public CategoriaResponseDTO buscarCategoriaPorId(@PathVariable int id){
         return categoriaService.buscarCategoriaPorId(id);
+    }
+
+    @PutMapping("/{id}")
+    public CategoriaResumoResponseDTO atualizarCategoria(@PathVariable int id,
+                                                         @Valid @RequestBody AtualizacaoCategoriaDTO atualizacaoCategoriaDTO){
+        CategoriaResumoResponseDTO categoria = categoriaService.atualizarCategoria(id, atualizacaoCategoriaDTO);
+        return categoria;
+
     }
 }
