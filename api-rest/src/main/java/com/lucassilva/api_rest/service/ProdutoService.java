@@ -3,7 +3,6 @@ package com.lucassilva.api_rest.service;
 
 import com.lucassilva.api_rest.dto.request.AtualizacaoProdutoDTO;
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
-import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResumoResponseDTO;
 import com.lucassilva.api_rest.dto.response.ProdutoResponseDTO;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;

@@ -4,11 +4,9 @@ import com.lucassilva.api_rest.dto.request.AtualizacaoCategoriaDTO;
 import com.lucassilva.api_rest.dto.request.CadastroCategoriaDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResumoResponseDTO;
-import com.lucassilva.api_rest.model.Categoria;
 import com.lucassilva.api_rest.service.CategoriaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
