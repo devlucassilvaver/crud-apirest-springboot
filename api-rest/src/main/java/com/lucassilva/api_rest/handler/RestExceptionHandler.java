@@ -16,11 +16,17 @@ import java.util.List;
 @RestControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(ProdutoNaoEncontradoException.class)
-    public ResponseEntity<String> tratarProdutoNaoEncontrado(
+    public ResponseEntity<ErrorResponse> tratarProdutoNaoEncontrado(
             ProdutoNaoEncontradoException exception){
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                List.of("Produto não encontrado.")
+        );
+
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(exception.getMessage());
+                .body(errorResponse);
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> tratarMethodArgumentNotValid(
