@@ -2,6 +2,7 @@ package com.lucassilva.api_rest.handler;
 
 import com.lucassilva.api_rest.dto.response.ErrorResponse;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
+import com.lucassilva.api_rest.exception.CategoriaPossuiProdutosException;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,14 @@ public class RestExceptionHandler {
             CategoriaNaoEncontradaException exception){
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(exception.getMessage());
+    }
+
+    @ExceptionHandler(CategoriaPossuiProdutosException.class)
+    public ResponseEntity<String> tratarCategoriaPossuiProduto(
+            CategoriaPossuiProdutosException exception) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(exception.getMessage());
     }
 }

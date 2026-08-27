@@ -6,6 +6,7 @@ import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResumoResponseDTO;
 import com.lucassilva.api_rest.dto.response.ProdutoResponseDTO;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
+import com.lucassilva.api_rest.exception.CategoriaPossuiProdutosException;
 import com.lucassilva.api_rest.model.Categoria;
 import com.lucassilva.api_rest.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,21 @@ public class CategoriaService {
                 categoria.getNome(),
                 produtos
         );
+    }
+
+    public void removerCategoria(int id){
+        Categoria categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new CategoriaNaoEncontradaException(
+                        "Categoria não encontrada")
+                );
+
+        if (!categoria.getProdutos().isEmpty()){
+            throw new CategoriaPossuiProdutosException(
+                    "A categoria possui produtos."
+            );
+        }
+
+        categoriaRepository.deleteById(id);
     }
 
 }

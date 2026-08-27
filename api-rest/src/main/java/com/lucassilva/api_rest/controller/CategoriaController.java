@@ -51,6 +51,15 @@ public class CategoriaController {
                                                          @Valid @RequestBody AtualizacaoCategoriaDTO atualizacaoCategoriaDTO){
         CategoriaResumoResponseDTO categoria = categoriaService.atualizarCategoria(id, atualizacaoCategoriaDTO);
         return categoria;
-
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> removerCategoria(@PathVariable int id){
+        categoriaService.removerCategoria(id);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
 }
