@@ -4,6 +4,7 @@ import com.lucassilva.api_rest.dto.response.ErrorResponse;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
 import com.lucassilva.api_rest.exception.CategoriaPossuiProdutosException;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
+import com.lucassilva.api_rest.service.CategoriaService;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,11 +65,16 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(CategoriaPossuiProdutosException.class)
-    public ResponseEntity<String> tratarCategoriaPossuiProduto(
+    public ResponseEntity<ErrorResponse> tratarCategoriaPossuiProduto(
             CategoriaPossuiProdutosException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.CONFLICT.value(),
+                List.of(exception.getMessage())
+        );
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
-                .body(exception.getMessage());
+                .body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
