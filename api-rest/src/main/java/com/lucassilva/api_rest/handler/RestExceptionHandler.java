@@ -4,8 +4,10 @@ import com.lucassilva.api_rest.dto.response.ErrorResponse;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
 import com.lucassilva.api_rest.exception.CategoriaPossuiProdutosException;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.EscapedErrors;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -48,11 +50,17 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(CategoriaNaoEncontradaException.class)
-    public ResponseEntity<String> tratarCategoriaNaoEncontrada(
+    public ResponseEntity<ErrorResponse> tratarCategoriaNaoEncontrada(
             CategoriaNaoEncontradaException exception){
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                List.of("Categoria não encontrada.")
+        );
+
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(exception.getMessage());
+                .body(errorResponse);
     }
 
     @ExceptionHandler(CategoriaPossuiProdutosException.class)
