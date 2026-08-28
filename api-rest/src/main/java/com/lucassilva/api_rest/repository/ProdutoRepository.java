@@ -8,4 +8,6 @@ import java.util.List;
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
     List<Produto> findByCategoriaId(Integer categoriaId);
+
+    List<Produto> findByNomeContaining(String nome);
 }

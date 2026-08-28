@@ -22,8 +22,8 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<ProdutoResponseDTO> listarProdutos() {
-        return produtoService.listarProdutos();
+    public List<ProdutoResponseDTO> listarProdutos(@RequestParam(required = false) String nome) {
+        return produtoService.buscarProdutoPorNome(nome);
     }
 
     @GetMapping("/{id}")
