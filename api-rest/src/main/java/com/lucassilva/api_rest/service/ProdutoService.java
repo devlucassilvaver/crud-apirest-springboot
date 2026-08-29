@@ -26,31 +26,6 @@ public class ProdutoService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public List<ProdutoResponseDTO> buscarProdutoPorNome(String nome){
-        List<Produto> produtos;
-
-            if (nome == null){
-                produtos = produtoRepository.findAll();
-            } else {
-                produtos = produtoRepository.findByNomeContaining(nome);
-            }
-
-            List<ProdutoResponseDTO> produtosLista = produtos
-                .stream()
-                .map(produto -> new ProdutoResponseDTO(
-                        produto.getId(),
-                        produto.getNome(),
-                        produto.getPreco(),
-                        new CategoriaResumoResponseDTO(
-                                produto.getCategoria().getId(),
-                                produto.getCategoria().getNome()
-                        )
-                ))
-                .toList();
-
-        return produtosLista;
-    }
-
     public List<ProdutoResponseDTO> listarProdutos(){
 
         List<ProdutoResponseDTO> produtos = produtoRepository
@@ -93,6 +68,31 @@ public class ProdutoService {
         );
     }
 
+    public List<ProdutoResponseDTO> buscarProdutoPorNome(String nome){
+        List<Produto> produtos;
+
+        if (nome == null){
+            produtos = produtoRepository.findAll();
+        } else {
+            produtos = produtoRepository.findByNomeContaining(nome);
+        }
+
+        List<ProdutoResponseDTO> produtosLista = produtos
+                .stream()
+                .map(produto -> new ProdutoResponseDTO(
+                        produto.getId(),
+                        produto.getNome(),
+                        produto.getPreco(),
+                        new CategoriaResumoResponseDTO(
+                                produto.getCategoria().getId(),
+                                produto.getCategoria().getNome()
+                        )
+                ))
+                .toList();
+
+        return produtosLista;
+    }
+
     public List<ProdutoResponseDTO> buscarProdutoPorCategoria(Integer categoriaId) {
 
         categoriaRepository
@@ -109,7 +109,10 @@ public class ProdutoService {
                         produto.getId(),
                         produto.getNome(),
                         produto.getPreco(),
-                        null
+                        new CategoriaResumoResponseDTO(
+                                produto.getCategoria().getId(),
+                                produto.getCategoria().getNome()
+                        )
                 ))
                 .toList();
         return produtos;
