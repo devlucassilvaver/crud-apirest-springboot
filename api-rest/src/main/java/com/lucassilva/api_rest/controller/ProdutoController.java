@@ -22,8 +22,18 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<ProdutoResponseDTO> listarProdutos(@RequestParam(required = false) String nome) {
-        return produtoService.buscarProdutoPorNome(nome);
+    public List<ProdutoResponseDTO> listarProdutos(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) Integer categoriaId) {
+
+        if (categoriaId != null){
+            return produtoService.buscarProdutoPorCategoria(categoriaId);
+        } else if(nome != null){
+            return produtoService.buscarProdutoPorNome(nome);
+        } else {
+            return produtoService.listarProdutos();
+        }
+
     }
 
     @GetMapping("/{id}")
