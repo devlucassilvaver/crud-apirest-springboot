@@ -1,13 +1,13 @@
 package com.lucassilva.api_rest.repository;
 
 import com.lucassilva.api_rest.model.Produto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
-    List<Produto> findByCategoriaId(Integer categoriaId);
+    Page<Produto> findByCategoriaId(Integer categoriaId, Pageable pageable);
 
-    List<Produto> findByNomeContaining(String nome);
+    Page<Produto> findByNomeContaining(String nome, Pageable pageable);
 }

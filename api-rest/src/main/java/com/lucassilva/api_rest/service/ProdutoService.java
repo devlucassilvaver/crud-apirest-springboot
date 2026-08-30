@@ -11,8 +11,9 @@ import com.lucassilva.api_rest.model.Categoria;
 import com.lucassilva.api_rest.model.Produto;
 import com.lucassilva.api_rest.repository.CategoriaRepository;
 import com.lucassilva.api_rest.repository.ProdutoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class ProdutoService {
@@ -26,12 +27,14 @@ public class ProdutoService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public List<ProdutoResponseDTO> listarProdutos(){
+    public Page<ProdutoResponseDTO> listarProdutos(Pageable pageable){
 
-        List<ProdutoResponseDTO> produtos = produtoRepository
-                .findAll()
-                .stream()
-                .map(produto -> new ProdutoResponseDTO(
+        Page<Produto> produtos = produtoRepository
+                .findAll(pageable);
+
+        Page<ProdutoResponseDTO> produtosDTO = produtos
+                .map(
+                produto -> new ProdutoResponseDTO(
                         produto.getId(),
                         produto.getNome(),
                         produto.getPreco(),
@@ -39,10 +42,9 @@ public class ProdutoService {
                                 produto.getCategoria().getId(),
                                 produto.getCategoria().getNome()
                         )
-                ))
-                .toList();
+                ));
 
-        return produtos;
+        return produtosDTO;
     }
 
     public Produto buscarProdutoPorId(int id){
@@ -68,54 +70,49 @@ public class ProdutoService {
         );
     }
 
-    public List<ProdutoResponseDTO> buscarProdutoPorNome(String nome){
-        List<Produto> produtos;
+    public Page<ProdutoResponseDTO> buscarProdutoPorNome(
+            String nome,
+            Pageable pageable){
 
-        if (nome == null){
-            produtos = produtoRepository.findAll();
-        } else {
-            produtos = produtoRepository.findByNomeContaining(nome);
-        }
-
-        List<ProdutoResponseDTO> produtosLista = produtos
-                .stream()
-                .map(produto -> new ProdutoResponseDTO(
-                        produto.getId(),
-                        produto.getNome(),
-                        produto.getPreco(),
-                        new CategoriaResumoResponseDTO(
-                                produto.getCategoria().getId(),
-                                produto.getCategoria().getNome()
+        Page<ProdutoResponseDTO> produtosNome = produtoRepository
+                .findByNomeContaining(nome, pageable)
+                .map(
+                        produto -> new ProdutoResponseDTO(
+                                produto.getId(),
+                                produto.getNome(),
+                                produto.getPreco(),
+                                new CategoriaResumoResponseDTO(
+                                        produto.getCategoria().getId(),
+                                        produto.getCategoria().getNome()
+                                )
                         )
-                ))
-                .toList();
-
-        return produtosLista;
+                );
+        return produtosNome;
     }
 
-    public List<ProdutoResponseDTO> buscarProdutoPorCategoria(Integer categoriaId) {
+    public Page<ProdutoResponseDTO> buscarProdutoPorCategoria(
+            Integer categoriaId,
+            Pageable pageable) {
 
         categoriaRepository
                 .findById(categoriaId)
                 .orElseThrow(() -> new CategoriaNaoEncontradaException(
                         "Categoria não encontrada"
+                ));
+
+        Page<ProdutoResponseDTO> produtosCategoria = produtoRepository.findByCategoriaId(categoriaId, pageable)
+                .map(
+                        produto -> new ProdutoResponseDTO(
+                                produto.getId(),
+                                produto.getNome(),
+                                produto.getPreco(),
+                                new CategoriaResumoResponseDTO(
+                                        produto.getCategoria().getId(),
+                                        produto.getCategoria().getNome()
+                                )
                         )
                 );
-
-        List<ProdutoResponseDTO> produtos = produtoRepository
-                .findByCategoriaId(categoriaId)
-                .stream()
-                .map(produto -> new ProdutoResponseDTO(
-                        produto.getId(),
-                        produto.getNome(),
-                        produto.getPreco(),
-                        new CategoriaResumoResponseDTO(
-                                produto.getCategoria().getId(),
-                                produto.getCategoria().getNome()
-                        )
-                ))
-                .toList();
-        return produtos;
+        return produtosCategoria;
     }
 
     public ProdutoResponseDTO adicionarProduto(CadastroProdutoDTO cadastroProdutoDTO){

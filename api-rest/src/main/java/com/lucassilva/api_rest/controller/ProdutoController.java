@@ -5,11 +5,11 @@ import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
 import com.lucassilva.api_rest.dto.response.ProdutoResponseDTO;
 import com.lucassilva.api_rest.service.ProdutoService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/produtos")
@@ -22,18 +22,18 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<ProdutoResponseDTO> listarProdutos(
+    public Page<ProdutoResponseDTO> listarProdutos(
             @RequestParam(required = false) String nome,
-            @RequestParam(required = false) Integer categoriaId) {
+            @RequestParam(required = false) Integer categoriaId,
+            Pageable pageable) {
 
         if (categoriaId != null){
-            return produtoService.buscarProdutoPorCategoria(categoriaId);
+            return produtoService.buscarProdutoPorCategoria(categoriaId, pageable);
         } else if(nome != null){
-            return produtoService.buscarProdutoPorNome(nome);
+            return produtoService.buscarProdutoPorNome(nome, pageable);
         } else {
-            return produtoService.listarProdutos();
+            return produtoService.listarProdutos(pageable);
         }
-
     }
 
     @GetMapping("/{id}")
@@ -42,8 +42,10 @@ public class ProdutoController {
     }
 
     @GetMapping("/categoria/{id}")
-    public List<ProdutoResponseDTO> buscarProdutoPorCategoria(@PathVariable int id){
-        return produtoService.buscarProdutoPorCategoria(id);
+    public Page<ProdutoResponseDTO> buscarProdutoPorCategoria(
+            @PathVariable int id,
+            Pageable pageable){
+        return produtoService.buscarProdutoPorCategoria(id, pageable);
     }
 
     @PostMapping
