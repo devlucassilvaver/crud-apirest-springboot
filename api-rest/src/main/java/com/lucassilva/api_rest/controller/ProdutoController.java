@@ -3,6 +3,7 @@ package com.lucassilva.api_rest.controller;
 import com.lucassilva.api_rest.dto.request.AtualizacaoProdutoDTO;
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
 import com.lucassilva.api_rest.dto.response.ProdutoResponseDTO;
+import com.lucassilva.api_rest.exception.FiltrosSimultaneosException;
 import com.lucassilva.api_rest.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -31,10 +32,12 @@ public class ProdutoController {
                     page = 0,
                     size = 10,
                     sort = "id",
-                    direction = Sort.Direction.ASC
-            ) Pageable pageable) {
+                    direction = Sort.Direction.ASC) Pageable pageable) {
 
-        if (categoriaId != null){
+        if(nome != null && categoriaId != null){
+            throw new FiltrosSimultaneosException(
+                    "Não é permitido utilizar os filtros simultaneamente.");
+        } else if (categoriaId != null){
             return produtoService.buscarProdutoPorCategoria(categoriaId, pageable);
         } else if(nome != null){
             return produtoService.buscarProdutoPorNome(nome, pageable);

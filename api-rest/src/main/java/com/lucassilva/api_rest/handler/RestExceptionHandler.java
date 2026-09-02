@@ -3,6 +3,7 @@ package com.lucassilva.api_rest.handler;
 import com.lucassilva.api_rest.dto.response.ErrorResponse;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
 import com.lucassilva.api_rest.exception.CategoriaPossuiProdutosException;
+import com.lucassilva.api_rest.exception.FiltrosSimultaneosException;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
 import com.lucassilva.api_rest.service.CategoriaService;
 import org.springframework.cglib.core.Local;
@@ -87,6 +88,19 @@ public class RestExceptionHandler {
         );
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(FiltrosSimultaneosException.class)
+    public ResponseEntity<ErrorResponse> tratarFiltrosSimultaneos(
+            FiltrosSimultaneosException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                List.of("Não é permitido utilizar os filtros simultaneamente.")
+        );
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
                 .body(errorResponse);
     }
 }
