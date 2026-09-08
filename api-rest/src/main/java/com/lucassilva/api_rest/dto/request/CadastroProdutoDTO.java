@@ -34,4 +34,8 @@ public class CadastroProdutoDTO {
     public Integer getCategoriaId() {
         return categoriaId;
     }
+
+    public void setCategoriaId(Integer categoriaId) {
+        this.categoriaId = categoriaId;
+    }
 }
