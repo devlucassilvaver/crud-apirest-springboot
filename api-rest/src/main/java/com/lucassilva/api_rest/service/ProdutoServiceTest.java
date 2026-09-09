@@ -1,8 +1,8 @@
 package com.lucassilva.api_rest.service;
 
-import com.lucassilva.api_rest.dto.request.CadastroCategoriaDTO;
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
-import com.lucassilva.api_rest.dto.response.ProdutoResponseDTO;
+import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
+import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
 import com.lucassilva.api_rest.model.Categoria;
 import com.lucassilva.api_rest.model.Produto;
@@ -55,12 +55,16 @@ public class ProdutoServiceTest {
     void testeAdicionarProduto() {
         int id = 1;
 
-        CadastroProdutoDTO produto = new CadastroProdutoDTO();
+        var produto = new CadastroProdutoDTO();
         produto.setNome("Headset");
-        produto.setPreco(270);
+        produto.setPreco(200);
         produto.setCategoriaId(id);
 
         Categoria categoriaTeste = new Categoria();
+        categoriaTeste.setNome("Periféricos");
+
+        Categoria categoriaTesteFail = new Categoria();
+        categoriaTesteFail.setNome(null);
 
         Mockito.when(categoriaRepository.findById(id))
                 .thenReturn(Optional.of(categoriaTeste));
@@ -70,6 +74,24 @@ public class ProdutoServiceTest {
 
         var resultado = produtoService.adicionarProduto(produto);
 
-        Assertions.assertEquals(produto.getNome(), resultado.getNome());
+        Assertions.assertEquals(
+                produto.getNome(),
+                resultado.getNome()
+        );
+
+        Assertions.assertEquals(
+                produto.getPreco(),
+                resultado.getPreco()
+        );
+
+        Assertions.assertEquals(
+                categoriaTeste.getId(),
+                resultado.getCategoria().getId()
+        );
+
+        Assertions.assertEquals(
+                categoriaTeste.getNome(),
+                resultado.getCategoria().getNome()
+        );
     }
 }
