@@ -94,4 +94,20 @@ public class ProdutoServiceTest {
                 resultado.getCategoria().getNome()
         );
     }
+
+    @Test
+    void testarAdicionarProdutoFail(){
+        int id = 1;
+
+        var produto = new CadastroProdutoDTO();
+        produto.setCategoriaId(id);
+
+        Mockito.when(categoriaRepository.findById(id))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThrows(
+                CategoriaNaoEncontradaException.class,
+                () -> produtoService.adicionarProduto(produto)
+        );
+    }
 }
