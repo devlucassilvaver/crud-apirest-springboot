@@ -1,7 +1,6 @@
 package com.lucassilva.api_rest.service;
 
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
-import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
 import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
 import com.lucassilva.api_rest.model.Categoria;
@@ -21,8 +20,6 @@ public class ProdutoServiceTest {
 
     @Mock
     ProdutoRepository produtoRepository;
-
-    @Mock
     CategoriaRepository categoriaRepository;
 
     @InjectMocks
