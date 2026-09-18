@@ -2,6 +2,7 @@ package com.lucassilva.api_rest.service;
 
 import com.lucassilva.api_rest.dto.request.AtualizacaoCategoriaDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
+import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
 import com.lucassilva.api_rest.model.Categoria;
 import com.lucassilva.api_rest.repository.CategoriaRepository;
 import com.lucassilva.api_rest.repository.ProdutoRepository;
@@ -46,6 +47,22 @@ public class CategoriaServiceTest {
         Assertions.assertEquals(
                 atualizacaoCategoriaDTO.getNome(),
                 resultado.getNome()
+        );
+    }
+
+    @Test
+    void atualizarCategoriaFail(){
+        int id = 1;
+
+        AtualizacaoCategoriaDTO atualizacaoCategoriaDTO = new AtualizacaoCategoriaDTO();
+        atualizacaoCategoriaDTO.setNome("Periféricos");
+
+        Mockito.when(categoriaRepository.findById(id))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThrows(
+                CategoriaNaoEncontradaException.class,
+                () -> categoriaService.atualizarCategoria(id, atualizacaoCategoriaDTO)
         );
     }
 }
