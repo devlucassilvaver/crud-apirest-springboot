@@ -1,11 +1,9 @@
 package com.lucassilva.api_rest.service;
 
 import com.lucassilva.api_rest.dto.request.AtualizacaoCategoriaDTO;
-import com.lucassilva.api_rest.dto.response.CategoriaResponseDTO;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
 import com.lucassilva.api_rest.model.Categoria;
 import com.lucassilva.api_rest.repository.CategoriaRepository;
-import com.lucassilva.api_rest.repository.ProdutoRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,12 +20,9 @@ public class CategoriaServiceTest {
 
     @Mock
     CategoriaRepository categoriaRepository;
-    ProdutoRepository produtoRepository;
 
     @InjectMocks
     CategoriaService categoriaService;
-
-
 
     @Test
     void atualizarCategoria(){
@@ -64,5 +60,20 @@ public class CategoriaServiceTest {
                 CategoriaNaoEncontradaException.class,
                 () -> categoriaService.atualizarCategoria(id, atualizacaoCategoriaDTO)
         );
+    }
+
+    @Test
+    void removerCategoria(){
+        int id = 1;
+        Categoria categoria = new Categoria();
+        categoria.setProdutos(List.of());
+
+        Mockito.when(categoriaRepository.findById(id))
+                .thenReturn(Optional.of(categoria));
+
+        categoriaService.removerCategoria(id);
+
+        Mockito.verify(categoriaRepository).deleteById(id);
+
     }
 }
