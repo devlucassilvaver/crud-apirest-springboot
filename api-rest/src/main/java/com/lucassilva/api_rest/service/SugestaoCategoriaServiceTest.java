@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import com.lucassilva.api_rest.exception.FalhaIntegracaoIAException;
 
 import java.util.List;
 
@@ -28,6 +29,16 @@ class SugestaoCategoriaServiceTest {
     @InjectMocks
     private SugestaoCategoriaService sugestaoCategoriaService;
 
+    private final SugestaoCategoriaRequestDTO solicitacaoPadrao =
+            new SugestaoCategoriaRequestDTO(
+                    "Mouse",
+                    "Mouse USB para computador"
+            );
+
+    private final List<CategoriaResumoResponseDTO> categoriasPadrao =
+            List.of(
+                    new CategoriaResumoResponseDTO(7, "Eletrônicos")
+            );
     @Test
     void deveRetornarCategoriaDisponivel() {
         // Arrange: preparar os dados e as respostas simuladas.
@@ -112,5 +123,109 @@ class SugestaoCategoriaServiceTest {
         assertNull(resultado.categoriaId());
 
         verifyNoInteractions(classificadorIA);
+    }
+
+    @Test
+    void deveRejeitarRespostaNula() {
+        when(categoriaService.listarCategorias())
+                .thenReturn(categoriasPadrao);
+
+        when(classificadorIA.sugerir(
+                solicitacaoPadrao.nome(),
+                solicitacaoPadrao.descricao(),
+                categoriasPadrao
+        )).thenReturn(null);
+
+        assertThrows(
+                RespostaIAInvalidaException.class,
+                () -> sugestaoCategoriaService.sugerir(solicitacaoPadrao)
+        );
+    }
+
+    @Test
+    void deveRejeitarJustificativaNula() {
+        when(categoriaService.listarCategorias())
+                .thenReturn(categoriasPadrao);
+
+        when(classificadorIA.sugerir(
+                solicitacaoPadrao.nome(),
+                solicitacaoPadrao.descricao(),
+                categoriasPadrao
+        )).thenReturn(
+                new SugestaoCategoriaResponseDTO(7, null)
+        );
+
+        assertThrows(
+                RespostaIAInvalidaException.class,
+                () -> sugestaoCategoriaService.sugerir(solicitacaoPadrao)
+        );
+    }
+
+    @Test
+    void deveRejeitarJustificativaVazia() {
+        when(categoriaService.listarCategorias())
+                .thenReturn(categoriasPadrao);
+
+        when(classificadorIA.sugerir(
+                solicitacaoPadrao.nome(),
+                solicitacaoPadrao.descricao(),
+                categoriasPadrao
+        )).thenReturn(
+                new SugestaoCategoriaResponseDTO(7, "")
+        );
+
+        assertThrows(
+                RespostaIAInvalidaException.class,
+                () -> sugestaoCategoriaService.sugerir(solicitacaoPadrao)
+        );
+    }
+
+    @Test
+    void deveAceitarAusenciaDeSugestaoComJustificativa() {
+        when(categoriaService.listarCategorias())
+                .thenReturn(categoriasPadrao);
+
+        when(classificadorIA.sugerir(
+                solicitacaoPadrao.nome(),
+                solicitacaoPadrao.descricao(),
+                categoriasPadrao
+        )).thenReturn(
+                new SugestaoCategoriaResponseDTO(
+                        null,
+                        "As informações não permitem sugerir uma categoria."
+                )
+        );
+
+        var resultado = sugestaoCategoriaService.sugerir(
+                solicitacaoPadrao
+        );
+
+        assertNull(resultado.categoriaId());
+
+        assertEquals(
+                "As informações não permitem sugerir uma categoria.",
+                resultado.justificativa()
+        );
+    }
+
+    @Test
+    void devePropagarFalhaDeIntegracao() {
+        when(categoriaService.listarCategorias())
+                .thenReturn(categoriasPadrao);
+
+        when(classificadorIA.sugerir(
+                solicitacaoPadrao.nome(),
+                solicitacaoPadrao.descricao(),
+                categoriasPadrao
+        )).thenThrow(
+                new FalhaIntegracaoIAException(
+                        "Não foi possível obter uma resposta do provedor."
+                )
+        );
+
+        assertThrows(
+                FalhaIntegracaoIAException.class,
+                () -> sugestaoCategoriaService.sugerir(solicitacaoPadrao)
+        );
     }
 }
