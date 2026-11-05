@@ -1,7 +1,6 @@
 package com.lucassilva.api_rest.dto.response;
 
-public record SugestaoCategoriaDTO(
+public record SugestaoCategoriaResponseDTO(
         Integer categoriaId,
         String justificativa
-) {
-}
+) {}
