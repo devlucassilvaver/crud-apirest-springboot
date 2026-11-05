@@ -1,10 +1,12 @@
-package com.lucassilva.api_rest.service;
+package com.lucassilva.api_rest;
 
 import com.lucassilva.api_rest.client.ClassificadorCategoriaIA;
 import com.lucassilva.api_rest.dto.request.SugestaoCategoriaRequestDTO;
 import com.lucassilva.api_rest.dto.response.CategoriaResumoResponseDTO;
 import com.lucassilva.api_rest.dto.response.SugestaoCategoriaResponseDTO;
 import com.lucassilva.api_rest.exception.RespostaIAInvalidaException;
+import com.lucassilva.api_rest.service.CategoriaService;
+import com.lucassilva.api_rest.service.SugestaoCategoriaService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

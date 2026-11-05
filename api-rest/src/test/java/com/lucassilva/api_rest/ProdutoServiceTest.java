@@ -1,4 +1,4 @@
-package com.lucassilva.api_rest.service;
+package com.lucassilva.api_rest;
 
 import com.lucassilva.api_rest.dto.request.CadastroProdutoDTO;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
@@ -7,6 +7,7 @@ import com.lucassilva.api_rest.model.Categoria;
 import com.lucassilva.api_rest.model.Produto;
 import com.lucassilva.api_rest.repository.CategoriaRepository;
 import com.lucassilva.api_rest.repository.ProdutoRepository;
+import com.lucassilva.api_rest.service.ProdutoService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,8 @@ public class ProdutoServiceTest {
 
     @Mock
     ProdutoRepository produtoRepository;
+
+    @Mock
     CategoriaRepository categoriaRepository;
 
     @InjectMocks

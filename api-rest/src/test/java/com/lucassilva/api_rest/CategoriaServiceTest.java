@@ -1,9 +1,10 @@
-package com.lucassilva.api_rest.service;
+package com.lucassilva.api_rest;
 
 import com.lucassilva.api_rest.dto.request.AtualizacaoCategoriaDTO;
 import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
 import com.lucassilva.api_rest.model.Categoria;
 import com.lucassilva.api_rest.repository.CategoriaRepository;
+import com.lucassilva.api_rest.service.CategoriaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
