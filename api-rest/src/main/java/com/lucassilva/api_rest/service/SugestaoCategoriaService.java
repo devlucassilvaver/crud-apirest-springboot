@@ -4,7 +4,9 @@ import com.lucassilva.api_rest.client.ClassificadorCategoriaIA;
 import com.lucassilva.api_rest.dto.request.SugestaoCategoriaRequestDTO;
 import com.lucassilva.api_rest.dto.response.SugestaoCategoriaResponseDTO;
 import com.lucassilva.api_rest.exception.RespostaIAInvalidaException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SugestaoCategoriaService {
 
     private final CategoriaService categoriaService;

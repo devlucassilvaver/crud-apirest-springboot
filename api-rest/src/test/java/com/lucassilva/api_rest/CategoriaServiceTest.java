@@ -32,7 +32,6 @@ public class CategoriaServiceTest {
         Categoria categoria = new Categoria();
         categoria.setNome("Eletrônicos");
 
-
         AtualizacaoCategoriaDTO atualizacaoCategoriaDTO = new AtualizacaoCategoriaDTO();
         atualizacaoCategoriaDTO.setNome("Periféricos");
 

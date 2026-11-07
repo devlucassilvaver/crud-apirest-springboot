@@ -1,10 +1,7 @@
 package com.lucassilva.api_rest.handler;
 
 import com.lucassilva.api_rest.dto.response.ErrorResponse;
-import com.lucassilva.api_rest.exception.CategoriaNaoEncontradaException;
-import com.lucassilva.api_rest.exception.CategoriaPossuiProdutosException;
-import com.lucassilva.api_rest.exception.FiltrosSimultaneosException;
-import com.lucassilva.api_rest.exception.ProdutoNaoEncontradoException;
+import com.lucassilva.api_rest.exception.*;
 import com.lucassilva.api_rest.service.CategoriaService;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
@@ -101,6 +98,36 @@ public class RestExceptionHandler {
         );
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(FalhaIntegracaoIAException.class)
+    public ResponseEntity<ErrorResponse> tratarFalhaIntegracaoIA(
+            FalhaIntegracaoIAException exception) {
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_GATEWAY.value(),
+                List.of("Não foi possível concluir a comunicação com o serviço de IA.")
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_GATEWAY)
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(RespostaIAInvalidaException.class)
+    public ResponseEntity<ErrorResponse> tratarRespostaIAInvalida(
+            RespostaIAInvalidaException exception) {
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_GATEWAY.value(),
+                List.of("O serviço de IA retornou uma resposta inválida.")
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_GATEWAY)
                 .body(errorResponse);
     }
 }
