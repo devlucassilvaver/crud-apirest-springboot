@@ -237,4 +237,49 @@ class GeminiClassificadorCategoriaIATest {
         servidorSimulado.verify();
     }
 
+    @Test
+    void deveLancarExcecaoQuandoJsonInternoForMalformado() {
+        String respostaGemini = """
+        {
+          "status": "completed",
+          "steps": [
+            {
+              "type": "model_output",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "{ json invalido"
+                }
+              ]
+            }
+          ]
+        }
+        """;
+
+        servidorSimulado.expect(
+                        requestTo(
+                                "https://generativelanguage.googleapis.com/v1beta/interactions"
+                        )
+                )
+                .andExpect(method(POST))
+                .andRespond(
+                        withSuccess(respostaGemini, MediaType.APPLICATION_JSON)
+                );
+
+        var categorias = List.of(
+                new CategoriaResumoResponseDTO(5, "Periféricos")
+        );
+
+        assertThrows(
+                RespostaIAInvalidaException.class,
+                () -> classificador.sugerir(
+                        "Mouse Gamer",
+                        "Mouse USB",
+                        categorias
+                )
+        );
+
+        servidorSimulado.verify();
+    }
+
 }
