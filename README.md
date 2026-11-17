@@ -160,7 +160,14 @@ Configure as variáveis no ambiente local:
 
 Não versione senhas ou chaves.
 
-No PowerShell, dentro da pasta que contém o `pom.xml`:
+Após clonar o repositório, entre na pasta da aplicação:
+
+```powershell
+cd crud-apirest-springboot
+cd api-rest
+```
+
+Dentro dessa pasta, inicie a aplicação:
 
 ```powershell
 .\mvnw.cmd spring-boot:run
