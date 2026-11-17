@@ -133,8 +133,16 @@ public class GeminiClassificadorCategoriaIA implements ClassificadorCategoriaIA{
             );
         }
 
+        String corpoResposta = resposta.getBody();
+
+        if (corpoResposta == null || corpoResposta.isBlank()) {
+            throw new RespostaIAInvalidaException(
+                    "O Gemini retornou uma resposta vazia."
+            );
+        }
+
         try {
-            JsonNode respostaJson = objectMapper.readTree(resposta.getBody());
+            JsonNode respostaJson = objectMapper.readTree(corpoResposta);
 
             JsonNode steps = respostaJson.path("steps");
 

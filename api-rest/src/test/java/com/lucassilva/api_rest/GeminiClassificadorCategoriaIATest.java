@@ -209,4 +209,32 @@ class GeminiClassificadorCategoriaIATest {
         servidorSimulado.verify();
     }
 
+    @Test
+    void deveLancarExcecaoQuandoGeminiRetornarCorpoVazio() {
+        servidorSimulado.expect(
+                        requestTo(
+                                "https://generativelanguage.googleapis.com/v1beta/interactions"
+                        )
+                )
+                .andExpect(method(POST))
+                .andRespond(
+                        withSuccess("", MediaType.APPLICATION_JSON)
+                );
+
+        var categorias = List.of(
+                new CategoriaResumoResponseDTO(5, "Periféricos")
+        );
+
+        assertThrows(
+                RespostaIAInvalidaException.class,
+                () -> classificador.sugerir(
+                        "Mouse Gamer",
+                        "Mouse USB",
+                        categorias
+                )
+        );
+
+        servidorSimulado.verify();
+    }
+
 }
